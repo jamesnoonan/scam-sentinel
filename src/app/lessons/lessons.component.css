@@ -1,0 +1,92 @@
+#lessons_container {
+    min-height: 100vh;
+    background-color: #d5d36c;
+    position: relative;
+}
+
+.content_container {
+    padding: 75px 7% 120px 7%;
+}
+
+app-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    font-size: 55px;
+    margin-top: 10px;
+}
+
+h2, h1 {
+    font-family: 'Audiowide';
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0px;
+    cursor: default;
+    font-weight: 400;
+}
+
+hr {
+    border: none;
+    border-bottom: solid white 2px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.lesson_list {
+    font-family: 'Roboto';
+    font-weight: 400;
+    padding: 16px;
+}
+
+.lesson_list ul {
+    text-decoration: none;
+    list-style: none;
+    padding: 0px;
+}
+
+.lesson_list li {
+    padding: 20px 30px;
+    transition: 0.2s;
+    border-radius: 2px;
+    margin-bottom: 4px;
+    cursor: pointer;
+
+    outline: 0;
+    border: none;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lesson_list li * {
+    font-family: 'Roboto';
+    font-weight: 400;
+    margin: 0;
+    padding-right: 20px;
+}
+
+.lesson_list li h4 {
+    font-size: 17px;
+}
+
+.lesson_list li h5 {
+    font-size: 13.5px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.lesson_list li:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}

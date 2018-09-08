@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+<div id="goldenrule_container">
+  <div id="accordion_container">
+    <div style="padding-top: 75px;">
+      <mat-tab-group [dynamicHeight]="true" [(selectedIndex)]="tabIndex">
+        <mat-tab label="Information">
+          <div id="instructions_container">
+            <h2>Information</h2>
+            <div id="instructions_panel">
+              <h3>{{ instructionHeading }}</h3>
+              <p>{{ instructionText }}</p>
+              <p class="next_instruction" *ngIf="showTask">{{ taskText }}</p>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Navigation">
+          <h2>Navigation</h2>
+          <mat-accordion displayMode="flat">
+            <mat-expansion-panel *ngFor="let rule of rulesData" [expanded]="ruleData.number == rule.number">
+              <mat-expansion-panel-header>
+                Golden Rule #{{ rule.number }}
+              </mat-expansion-panel-header>
+              <ul class="lesson_list">
+                <li *ngFor="let lesson of rule.lessons; let i = index" [routerLink]="['/goldenrule', rule.number, i+1, 0]" routerLinkActive="active_lesson">
+                  <h4>{{ lesson.title }}</h4>
+                  <h5>{{ lesson.type }}</h5>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  <div class="content_container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
