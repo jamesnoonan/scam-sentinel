@@ -15,7 +15,7 @@
   #navbar_title_container {
       background-image: repeating-linear-gradient(45deg, #ddda3a, #ddda3a 30px, #000 30px, #000 60px);
       height: 100%;
-      width: 220px;
+      width: 240px;
       position: relative;
       cursor: pointer;
       display: flex;
@@ -30,7 +30,7 @@
     color: white;
     text-shadow: 1px 1px 1px #000000;
     text-align: center;
-    font-size: 25px;
+    font-size: 23px;
   }
 
   ul.navigation_bar {
