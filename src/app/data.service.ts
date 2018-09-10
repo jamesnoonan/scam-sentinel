@@ -1,12 +1,12 @@
 export class DataService {
-
+  typingInstructions = false;
   data = [
     {
       number: 1, description: "If it's too good to be true, then it probably is",
       lessons: [
         {
           title: "Unexpected Money", type: "Email", steps: [
-            { title: "Introduction", instructions: "Unexpected money scams involve scammers inventing some convincing and seemingly legitimate reasons to give their victims false hope about offers of money. Scammers play with their victim's emotions of desire, panic and love in order to extract money for themselves.", nextTask: "Open your new essential Two Direction email to continue", messages: [{ subject: "Subscription Recieved", sender: "Two Direction Lovers", email: "contact@twodirectionlovers.com", time: "12:05PM", data: "Hellllllooooo Two Direction Fan!<br>We recieved the payment to subscribe to our website.<br>Regards,<br>TwoDirectionLovers.com", delay: 5000, unread: true }] },
+            { title: "Introduction", instructions: "Unexpected money scams involve scammers inventing some convincing and seemingly legitimate reasons to give their victims false hope about offers of money. Scammers play with their victim's emotions of desire, panic and love in order to extract money for themselves.", nextTask: "Click on your new essential Two Direction email to continue", messages: [{ subject: "Subscription Recieved", sender: "Two Direction Lovers", email: "contact@twodirectionlovers.com", time: "12:05PM", data: "Hellllllooooo Two Direction Fan!<br>We recieved the payment to subscribe to our website.<br>Regards,<br>TwoDirectionLovers.com", delay: 5000, unread: true }] },
             {
               title: "Common Examples", instructions: "Common examples of unexpected money scams include inheritance scams and nigerian scams. Inheritance scams are when a scammer poses as a lawyer or an unknown relative, and contacts you and offers you a large inheritance. The inheritance is almost always from one of your relatives that you had no idea of. Nigerian scams are when a scammer, posing as someone overseas, requests their victim to help them transfer their money out of their country. The scammer will usually offer the victim a large share in the money.", nextTask: "Click on the pop-up to go next", messages: [
                 { subject: "Subscription Recieved", sender: "Two Direction Lovers", email: "contact@twodirectionlovers.com", time: "12:05PM", data: "Hellllllooooo Two Direction Fan!<br>We recieved the payment to subscribe to our website.<br>Regards,<br>TwoDirectionLovers.com", unread: false },

@@ -2,27 +2,34 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DataService } from '../data.service';
 
+import { Subscription, interval, Observable} from 'rxjs';
+
 @Component({
   selector: 'app-golden-rule',
   templateUrl: './golden-rule.component.html',
   styleUrls: ['./golden-rule.component.css']
 })
 export class GoldenRuleComponent implements OnInit, OnDestroy {
+  
   // Parameter data
   goldenRuleNumber: number;
   lessonNumber: number;
   stepNumber: number;
 
+  // Are the instructions typing?
+  typingInstructions: boolean = false;
+
   // Two way binding for tabIndex of the tab
   tabIndex: number;
 
   // Observable subscriptions 
-  private ruleSub: any;
-  private lessonSub: any;
-  private sub: any;
+  private ruleSub: Subscription;
+  private lessonSub: Subscription;
+  private sub: Subscription;
 
   // Interval reference
-  interval: any;
+  interval: Observable<any>;
+  intervalSubscription: Subscription;
 
   // Data collected 
   ruleData: any;
@@ -69,6 +76,12 @@ export class GoldenRuleComponent implements OnInit, OnDestroy {
       this.ruleData = this.dataService.data[this.goldenRuleNumber - 1];
     });
 
+    this.sub = this.router.events.subscribe(events => {
+      if(event instanceof NavigationEnd) {
+        this.typingInstructions = false;
+      }
+    });
+
     // Run onLessonChange() on initialization, after parameters are defined
     this.onLessonChange();
   }
@@ -93,8 +106,11 @@ export class GoldenRuleComponent implements OnInit, OnDestroy {
     this.i = 0;
     this.showTask = false;
     // Clear any intervals before, then set new interval
-    clearInterval(this.interval);
-    this.interval = setInterval(() => { this.typeInstructions(); }, this.speed);
+    this.clearInterval();
+    this.interval = interval(this.speed);
+    this.intervalSubscription = this.interval.subscribe(() => {
+      this.typeInstructions();
+    })
   }
 
   typeInstructions() {
@@ -107,7 +123,14 @@ export class GoldenRuleComponent implements OnInit, OnDestroy {
       this.showTask = true;
     } else {
       // Clear the interval once typing is complete
-      clearInterval(this.interval);
+      this.clearInterval();
+    }
+  }
+
+  clearInterval() {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+      this.dataService.typingInstructions = true;
     }
   }
 
@@ -115,6 +138,8 @@ export class GoldenRuleComponent implements OnInit, OnDestroy {
     // Unsubscribe from subscriptions
     this.ruleSub.unsubscribe();
     this.lessonSub.unsubscribe();
+    this.sub.unsubscribe();
+    this.clearInterval();
   }
 
 }

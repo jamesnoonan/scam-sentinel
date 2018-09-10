@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { DataService } from '../../data.service';
+import { Observable, Subscription, interval } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lesson',
@@ -8,6 +10,7 @@ import { DataService } from '../../data.service';
   styleUrls: ['./lesson.component.css']
 })
 export class LessonComponent implements OnInit, OnDestroy {
+
   // Route paramters
   goldenRuleNumber: number = 0;
   lessonNumber: number = 0;
@@ -28,22 +31,24 @@ export class LessonComponent implements OnInit, OnDestroy {
   inputText: string = "";
   inputTextData: string;
 
-
   // Current count and speed of text typer
   i = 0;
   speed = 150;
 
-  // Interval reference
-  interval: any;
+  // Interval and Timeout references
+  interval: Observable<any>;
+  intervalSubscription: Subscription;
+  timeout: Observable<any>;
+  timeoutSubscription: Subscription;
 
   // Email Data
   emailSelected: number = 0;
   showEmailPane: boolean = false;
 
   // Router parameter subscriptions
-  private sub: any;
-  private ruleSub: any;
-  private lessonSub: any;
+  private sub: Subscription;
+  private ruleSub: Subscription;
+  private lessonSub: Subscription;
 
   constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService) { }
 
@@ -68,7 +73,8 @@ export class LessonComponent implements OnInit, OnDestroy {
     // Subscribe to router events
     this.sub = this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        clearInterval(this.interval);
+        this.clearInterval();
+        this.clearTimeout();
       }
       if (event instanceof NavigationEnd) {
         if (this.lessonNumber > 0) {
@@ -99,11 +105,14 @@ export class LessonComponent implements OnInit, OnDestroy {
           // Check if the element has the delay property
           if (element.hasOwnProperty('delay')) {
             // Wait the specified time until adding the element
-            setTimeout(() => {
+            this.timeout = interval(element.delay).pipe(
+              take(1)
+            );
+            this.timeoutSubscription = this.timeout.subscribe(() => {
               this.itemDisplay.unshift(element);
               this.unreadList.unshift(element.unread);
               this.emailSelected++;
-            }, element.delay);
+            });
           } else {
             // Else just add it
             this.itemDisplay.push(element);
@@ -129,8 +138,11 @@ export class LessonComponent implements OnInit, OnDestroy {
           // Reset interval data
           this.i = 0;
           // Clear any intervals before, then set new interval
-          clearInterval(this.interval);
-          this.interval = setInterval(() => { this.typeInstructions(); }, this.speed);
+          this.clearInterval();
+          this.interval = interval(this.speed);
+          this.intervalSubscription = this.interval.subscribe(() => {
+            this.typeInstructions();
+          });
         }, 1500)
       }
     }
@@ -144,10 +156,10 @@ export class LessonComponent implements OnInit, OnDestroy {
         this.i++;
       } else {
         // Clear the interval once typing is complete
-        clearInterval(this.interval);
+        this.clearInterval();
       }
     } else {
-      clearInterval(this.interval);
+      this.clearInterval();
     }
   }
 
@@ -161,11 +173,25 @@ export class LessonComponent implements OnInit, OnDestroy {
   }
 
   onChangeStep(activationCases) {
-    activationCases.forEach(element => {
-      if (this.goldenRuleNumber == element.rule && this.lessonNumber == element.lesson && this.stepNumber == element.step) {
-        this.router.navigate(['/goldenrule', this.goldenRuleNumber, this.lessonNumber, this.stepNumber + 1]);
-      }
-    });
+    if (this.dataService.typingInstructions) {
+      activationCases.forEach(element => {
+        if (this.goldenRuleNumber == element.rule && this.lessonNumber == element.lesson && this.stepNumber == element.step) {
+          this.router.navigate(['/goldenrule', this.goldenRuleNumber, this.lessonNumber, this.stepNumber + 1]);
+        }
+      });
+    }
+  }
+
+  clearInterval() {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+    }
+  }
+
+  clearTimeout() {
+    if (this.timeoutSubscription) {
+      this.timeoutSubscription.unsubscribe();
+    }
   }
 
   ngOnDestroy() {
@@ -173,6 +199,8 @@ export class LessonComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
     this.ruleSub.unsubscribe();
     this.lessonSub.unsubscribe();
+    this.clearInterval();
+    this.clearTimeout();
   }
 
 }
