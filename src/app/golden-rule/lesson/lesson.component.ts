@@ -28,6 +28,7 @@ export class LessonComponent implements OnInit, OnDestroy {
   inputText: string = "";
   inputTextData: string;
 
+
   // Current count and speed of text typer
   i = 0;
   speed = 150;
@@ -57,14 +58,12 @@ export class LessonComponent implements OnInit, OnDestroy {
     this.lessonSub = this.route.params.subscribe(params => {
       this.lessonNumber = +params['lessonId'];
       this.stepNumber = +params['stepId'];
-      // Set the lesson data from the DataService
       if (this.lessonNumber > 0) {
         this.lessonData = this.dataService.data[this.goldenRuleNumber - 1].lessons[this.lessonNumber - 1];
         if (this.lessonData.hasOwnProperty('steps')) {
           this.stepData = this.lessonData.steps[this.stepNumber];
         }
       }
-
     })
     // Subscribe to router events
     this.sub = this.router.events.subscribe(event => {
@@ -73,6 +72,10 @@ export class LessonComponent implements OnInit, OnDestroy {
       }
       if (event instanceof NavigationEnd) {
         if (this.lessonNumber > 0) {
+          this.lessonData = this.dataService.data[this.goldenRuleNumber - 1].lessons[this.lessonNumber - 1];
+          if (this.lessonData.hasOwnProperty('steps')) {
+            this.stepData = this.lessonData.steps[this.stepNumber];
+          }
           this.unreadList = [];
           this.createItemDisplay();
         }
@@ -93,12 +96,13 @@ export class LessonComponent implements OnInit, OnDestroy {
       // Iterate through each item
       this.stepData.messages.forEach(element => {
         if (this.lessonData.type == 'Email') {
-        // Check if the element has the delay property
+          // Check if the element has the delay property
           if (element.hasOwnProperty('delay')) {
             // Wait the specified time until adding the element
             setTimeout(() => {
               this.itemDisplay.unshift(element);
               this.unreadList.unshift(element.unread);
+              this.emailSelected++;
             }, element.delay);
           } else {
             // Else just add it
@@ -106,7 +110,7 @@ export class LessonComponent implements OnInit, OnDestroy {
             this.unreadList.push(element.unread);
           }
         } else {
-        // Check if the element has the delay property
+          // Check if the element has the delay property
           if (element.hasOwnProperty('delay')) {
             // Wait the specified time until adding the element
             setTimeout(() => {
@@ -153,6 +157,7 @@ export class LessonComponent implements OnInit, OnDestroy {
     }
     this.emailSelected = index;
     this.showEmailPane = true;
+    this.onChangeStep([{ rule: 1, lesson: 1, step: 0 }]);
   }
 
   onChangeStep(activationCases) {

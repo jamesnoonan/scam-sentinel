@@ -170,6 +170,7 @@ ul#email_list {
     padding: 20px;
     font-family: 'Open Sans';
     font-size: 14px;
+    white-space: pre-line;
 }
 
 .email_unread h4, .email_unread h5 {
