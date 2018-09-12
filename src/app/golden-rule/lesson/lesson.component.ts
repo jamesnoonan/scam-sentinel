@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { DataService } from '../../data.service';
 import { Observable, Subscription, interval } from 'rxjs';
@@ -179,6 +179,14 @@ export class LessonComponent implements OnInit, OnDestroy {
           this.router.navigate(['/goldenrule', this.goldenRuleNumber, this.lessonNumber, this.stepNumber + 1]);
         }
       });
+    }
+  }
+
+  getStepType() {
+    if(this.stepData.hasOwnProperty('type')){
+      return this.stepData.type;
+    } else {
+      return this.lessonData.type;
     }
   }
 

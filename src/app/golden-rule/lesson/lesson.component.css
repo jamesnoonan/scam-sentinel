@@ -62,10 +62,29 @@ hr {
 
 /* ------------------------ EMAIL CLIENT ------------------------ */
 
+#email_container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+
+#email_header {
+    background-color: rgb(180, 181, 148);
+}
+
+#email_header h2 {
+    font-size: 35px;
+    font-family: 'Roboto';
+    font-style: italic;
+    text-align: center;
+    margin: 0;
+    padding: 10px 0;
+}
+
 #email_wrapper {
     background-color: #fff;
     display: flex;
-    height: 70vh;
+    height: 550px;
 }
 
 #email_wrapper h2 {
@@ -144,6 +163,10 @@ ul#email_list {
     flex-grow: 1;
 }
 
+#email_pane_wrapper {
+    position: relative;
+}
+
 #email_pane_header {
     padding: 10px 10px 0 10px;
     text-align: center;
@@ -153,8 +176,35 @@ ul#email_list {
     font-family: 'Roboto';
     font-weight: 400;
     color: rgba(0, 0, 0, 0.8);
-    margin: 0 !important;
+    margin: 0;
     cursor: default;
+}
+
+#email_pane_subject {
+    margin: 0 10px;
+}
+
+#email_pane_sender {
+    margin-bottom: 5px;
+}
+
+#delete_button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+#delete_button img {
+    opacity: 0.4;
+    width: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#delete_button img:hover {
+    opacity: 0.7;
+    width: 30px;
+    filter: sepia(100%);
 }
 
 #email_pane_subject {
@@ -171,6 +221,28 @@ ul#email_list {
     font-family: 'Open Sans';
     font-size: 14px;
     white-space: pre-line;
+    overflow-y: auto;
+    height: 400px;
+}
+
+#email_pane_data::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#email_pane_data::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#email_pane_data::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
 }
 
 .email_unread h4, .email_unread h5 {
