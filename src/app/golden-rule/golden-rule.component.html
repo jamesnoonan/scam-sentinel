@@ -21,7 +21,7 @@
                 Golden Rule #{{ rule.number }}
               </mat-expansion-panel-header>
               <ul class="lesson_list">
-                <li *ngFor="let lesson of rule.lessons; let i = index" [routerLink]="['/goldenrule', rule.number, i+1, 0]" routerLinkActive="active_lesson">
+                <li *ngFor="let lesson of rule.lessons; let i = index" [routerLink]="['/goldenrule', rule.number, i+1, 0]" [ngClass]="{'active_lesson': goldenRuleNumber == rule.number && lessonNumber == i+1}">
                   <h4>{{ lesson.title }}</h4>
                   <h5>{{ lesson.type }}</h5>
                 </li>

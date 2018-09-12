@@ -163,27 +163,68 @@ export class LessonComponent implements OnInit, OnDestroy {
     }
   }
 
-  onEmailSelect(index) {
+  onEmailSelect(index, subject) {
     if (this.unreadList[index] == true) {
       this.unreadList[index] = false;
     }
     this.emailSelected = index;
     this.showEmailPane = true;
-    this.onChangeStep([{ rule: 1, lesson: 1, step: 0 }]);
+    switch (subject) {
+      case "Newsletter out!":
+        this.onChangeStep([{ rule: 1, lesson: 1, step: 0 }]);
+        break;
+      case "5 MILLION DOLLARS":
+        this.onChangeStep([{ rule: 1, lesson: 1, step: 1 }]);
+        break;
+      default:
+        break;
+    }
+
   }
 
   onChangeStep(activationCases) {
     if (this.dataService.typingInstructions) {
       activationCases.forEach(element => {
         if (this.goldenRuleNumber == element.rule && this.lessonNumber == element.lesson && this.stepNumber == element.step) {
-          this.router.navigate(['/goldenrule', this.goldenRuleNumber, this.lessonNumber, this.stepNumber + 1]);
+          if (this.lessonNumber != 0) {
+            if (this.lessonData.hasOwnProperty("steps")) {
+              if (this.lessonData.steps.length - 1 != this.stepNumber) {
+                this.router.navigate(['/goldenrule', this.goldenRuleNumber, this.lessonNumber, this.stepNumber + 1]);
+              } else {
+                if (this.ruleData.lessons.length == this.lessonNumber) {
+                  if (element.rule == 3) {
+                    this.router.navigate(['/home']);
+                  } else {
+                    this.lessonData = {};
+                    this.router.navigate(['/goldenrule', this.goldenRuleNumber + 1, 0, 0]);
+                  }
+                } else {
+                  this.router.navigate(['/goldenrule', this.goldenRuleNumber, this.lessonNumber + 1, 0]);
+                }
+              }
+            }
+          } else {
+            this.router.navigate(['/goldenrule', this.goldenRuleNumber, 1, 0]);
+          }
         }
       });
     }
   }
 
+  // else {
+  //   if (this.ruleData.lessons.length != this.lessonNumber) {
+  //     if (element.rule != 3) {
+  //     }
+  //     this.router.navigate(['/goldenrule', this.goldenRuleNumber, this.lessonNumber + 1, 0]);
+  //   } else {
+
+  //   }
+  // }
+  // else {
+  //   this.router.navigate(['/home']);
+
   getStepType() {
-    if(this.stepData.hasOwnProperty('type')){
+    if (this.stepData.hasOwnProperty('type')) {
       return this.stepData.type;
     } else {
       return this.lessonData.type;

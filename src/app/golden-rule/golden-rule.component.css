@@ -137,6 +137,20 @@ ul.lesson_list {
     padding: 10px 20px 30px 20px;
     background-color: white;  
     min-height: 110px;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+#instructions_panel::-webkit-scrollbar
+{
+    width: 5px;
+    background-color: #fff;
+}
+
+#instructions_panel::-webkit-scrollbar-thumb
+{
+    background-color: #ccc;
+    border-radius: 4px;
 }
 
 #instructions_panel p{
@@ -156,4 +170,10 @@ ul.lesson_list {
     font-size: 22px;
     font-weight: 400;
     color: rgba(0, 0, 0, 0.85);
+}
+
+@media only screen and (max-height: 750px) {
+    #instructions_panel {
+        max-height: 375px;
+    }
 }

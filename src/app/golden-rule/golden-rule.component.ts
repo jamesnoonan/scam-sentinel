@@ -16,9 +16,6 @@ export class GoldenRuleComponent implements OnInit, OnDestroy {
   lessonNumber: number;
   stepNumber: number;
 
-  // Are the instructions typing?
-  typingInstructions: boolean = false;
-
   // Two way binding for tabIndex of the tab
   tabIndex: number;
 
@@ -76,9 +73,9 @@ export class GoldenRuleComponent implements OnInit, OnDestroy {
       this.ruleData = this.dataService.data[this.goldenRuleNumber - 1];
     });
 
-    this.sub = this.router.events.subscribe(events => {
+    this.sub = this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
-        this.typingInstructions = false;
+        this.dataService.typingInstructions = false;
       }
     });
 
