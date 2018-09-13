@@ -12,7 +12,7 @@
 <div *ngIf="lessonData">
 
   <!-- EMAIL  -->
-  <div id="email_container" *ngIf="getStepType() == 'Email'" (click)="onChangeStep([{rule: 1, lesson: 2, step: 1}])">
+  <div id="email_container" *ngIf="getStepType() == 'Email'" (click)="onChangeStep([{rule: 1, lesson: 2, step: 1}, {rule: 1, lesson: 2, step: 3}, {rule: 1, lesson: 2, step: 4}, {rule:2, lesson: 1, step: 1}, {rule:2, lesson: 1, step: 2}])">
     <div id="email_header"><h2>S-Mail</h2></div>
     <div id="email_wrapper">
       <div>
@@ -33,10 +33,10 @@
       </div>
       <div id="email_pane">
         <div id="email_pane_wrapper" *ngIf="showEmailPane && itemDisplay[emailSelected]">
-            <div id="delete_button" matTooltip="Delete" matTooltipPosition="left"><img src="../../../assets/images/delete.png"></div>
+            <div id="delete_button" matTooltip="Delete" matTooltipPosition="left" (click)="onChangeStep([{rule: 1, lesson: 1, step: 2}, {rule: 1, lesson: 2, step: 5}, {rule: 2, lesson: 1, step: 4}])"><img src="../../../assets/images/delete.png"></div>
           <div id="email_pane_header">
             <h3 id="email_pane_subject">{{ itemDisplay[emailSelected].subject }}</h3>
-            <h4 id="email_pane_sender" [matTooltip]="itemDisplay[emailSelected].email" matTooltipPosition="above">{{ itemDisplay[emailSelected].sender }} - {{ itemDisplay[emailSelected].time}}</h4>
+            <h4 id="email_pane_sender" [matTooltip]="itemDisplay[emailSelected].email" matTooltipPosition="above" (click)="onChangeStep([{rule: 2, lesson: 1, step: 3}])">{{ itemDisplay[emailSelected].sender }} - {{ itemDisplay[emailSelected].time}}</h4>
           </div>
           <div id="email_pane_data" [innerHtml]="itemDisplay[emailSelected].data"></div>
         </div>
@@ -47,7 +47,7 @@
   <!-- DIRECT MESSAGE -->
   <div id="dm_container" *ngIf="getStepType() == 'Direct Message'">
     <div id="dm_wrapper">
-      <div class="header"><span class="left" (click)="onChangeStep([{rule: 1, lesson: 2, step: 0}])">Messages</span><h2>{{ stepData.contact }}</h2><span class="right">Contact</span></div>
+      <div class="header"><span class="left" (click)="onChangeStep([{rule: 1, lesson: 2, step: 0}, {rule: 3, lesson: 1, step: 6}])">Messages</span><h2>{{ stepData.contact }}</h2><span class="right">Contact</span></div>
       <div class="messages_wrapper">
         <div class="message_seperator" *ngFor="let message of itemDisplay" [ngStyle]="{'align-self': message.sent == 'from' ? 'flex-end' : 'flex-start' }">
           <div class="message" [ngClass]="{'to': message.sent == 'to', 'from': message.sent == 'from'}" [innerHtml]="message.text"></div>
@@ -66,7 +66,7 @@
             />
           </g>
         </svg><input type="text" placeholder="Message" id="message_input" [value]="inputText">
-        <h3 (click)="onChangeStep([{rule: 3, lesson: 3, step: 0}])">Send</h3>
+        <h3 (click)="onChangeStep([{rule: 3, lesson: 1, step: 0}, {rule: 3, lesson: 1, step: 1}, {rule: 3, lesson: 1, step: 2}, {rule: 3, lesson: 1, step: 3}, {rule: 3, lesson: 1, step: 4}, {rule: 3, lesson: 1, step: 5}])">Send</h3>
       </div>
     </div>
   </div>

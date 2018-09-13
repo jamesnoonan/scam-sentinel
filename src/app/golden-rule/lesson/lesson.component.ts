@@ -143,7 +143,7 @@ export class LessonComponent implements OnInit, OnDestroy {
           this.intervalSubscription = this.interval.subscribe(() => {
             this.typeInstructions();
           });
-        }, 1500)
+        }, 6000)
       }
     }
   }
@@ -176,6 +176,12 @@ export class LessonComponent implements OnInit, OnDestroy {
       case "5 MILLION DOLLARS":
         this.onChangeStep([{ rule: 1, lesson: 1, step: 1 }]);
         break;
+      case "You've won a trip to Paris!":
+        this.onChangeStep([{ rule: 1, lesson: 2, step: 2 }]);
+        break;
+      case "See Bill! EXPIRES SOON":
+      this.onChangeStep([{ rule: 2, lesson: 1, step: 0 }]);
+      break;
       default:
         break;
     }
